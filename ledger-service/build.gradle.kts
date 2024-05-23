@@ -42,9 +42,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.assertj:assertj-core")
 	testImplementation("org.mockito:mockito-core")
 	testImplementation("io.rest-assured:rest-assured")
-	testImplementation("org.hamcrest:hamcrest-core")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testImplementation("org.testcontainers:kafka")
 	testImplementation("org.testcontainers:junit-jupiter")

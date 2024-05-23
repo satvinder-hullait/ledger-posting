@@ -1,4 +1,4 @@
-package com.zing.ledger.port.kafka;
+package com.zing.ledger.service.domain;
 
 public enum TransactionType {
     CREDIT,
