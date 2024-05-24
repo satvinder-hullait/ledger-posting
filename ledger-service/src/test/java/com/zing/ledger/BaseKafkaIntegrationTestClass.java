@@ -18,6 +18,7 @@ public abstract class BaseKafkaIntegrationTestClass {
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.kafka.bootstrap-servers", KAFKA_CONTAINER::getBootstrapServers);
+        registry.add(
+                "spring.kafka.consumer.bootstrap-servers", KAFKA_CONTAINER::getBootstrapServers);
     }
 }

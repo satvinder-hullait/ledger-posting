@@ -52,7 +52,7 @@ public class TransactionConsumerTest extends BaseKafkaIntegrationTestClass {
     }
 
     @Test
-    public void testConsumesTranscationMessageCorrectly() {
+    public void testConsumesTransactionMessageCorrectly() {
         TransactionMessage message =
                 new TransactionMessage(
                         "12345",

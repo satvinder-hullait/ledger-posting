@@ -1,5 +1,6 @@
 package com.zing.ledger.service.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -8,4 +9,5 @@ public record TransactionMessage(
         AccountType accountType,
         BigDecimal amount,
         TransactionType transactionType,
-        Instant timestamp) {}
+        Instant timestamp)
+        implements Serializable {}
