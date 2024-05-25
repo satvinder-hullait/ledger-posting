@@ -19,10 +19,4 @@ public abstract class BaseRedisIntegrationTestClass {
         System.setProperty("spring.redis.host", REDIS_CONTAINER.getHost());
         System.setProperty("spring.redis.port", REDIS_CONTAINER.getMappedPort(6379).toString());
     }
-
-    //    @DynamicPropertySource
-    //    static void setProperties(DynamicPropertyRegistry registry) {
-    //        registry.add("spring.kafka.bootstrap-servers", KAFKA_CONTAINER::getBootstrapServers);
-    //    }
-
 }
