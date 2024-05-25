@@ -27,8 +27,10 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
     @Test
     void testSaveTransaction_NewAccount() {
         String accountId = "1234";
+        String transactionId = "1";
         TransactionMessage newMessage =
                 new TransactionMessage(
+                        transactionId,
                         accountId,
                         AccountType.CURRENT,
                         BigDecimal.ONE,
@@ -54,8 +56,10 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
     @Test
     void testSaveTransaction_ExistingAccount() {
         String accountId = "1234";
+        String transactionId = "12345";
         TransactionMessage existingMessage =
                 new TransactionMessage(
+                        transactionId,
                         accountId,
                         AccountType.CURRENT,
                         BigDecimal.ONE,
@@ -64,6 +68,7 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
                         Instant.now());
         TransactionMessage newMessage =
                 new TransactionMessage(
+                        transactionId,
                         accountId,
                         AccountType.CURRENT,
                         BigDecimal.TEN,
@@ -82,12 +87,14 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
         TransactionMessage firstMessage = retrievedMessages.get(0);
         TransactionMessage secondMessage = retrievedMessages.get(1);
 
+        assertThat(firstMessage.transactionId()).isEqualTo(existingMessage.transactionId());
         assertThat(firstMessage.accountId()).isEqualTo(existingMessage.accountId());
         assertThat(firstMessage.accountType()).isEqualTo(existingMessage.accountType());
         assertThat(firstMessage.amount()).isEqualTo(existingMessage.amount());
         assertThat(firstMessage.transactionType()).isEqualTo(existingMessage.transactionType());
         assertThat(firstMessage.timestamp()).isEqualTo(existingMessage.timestamp());
 
+        assertThat(secondMessage.transactionId()).isEqualTo(existingMessage.transactionId());
         assertThat(secondMessage.accountId()).isEqualTo(newMessage.accountId());
         assertThat(secondMessage.accountType()).isEqualTo(newMessage.accountType());
         assertThat(secondMessage.amount()).isEqualTo(newMessage.amount());
@@ -103,6 +110,7 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
         String accountId = "invalidKey";
         TransactionMessage newMessage =
                 new TransactionMessage(
+                        "1",
                         accountId,
                         AccountType.CURRENT,
                         BigDecimal.ONE,

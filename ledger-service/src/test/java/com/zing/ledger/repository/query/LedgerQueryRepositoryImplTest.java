@@ -37,6 +37,7 @@ class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
         String accountId = "1234";
         TransactionMessage expectedMessage =
                 new TransactionMessage(
+                        "1",
                         accountId,
                         AccountType.CURRENT,
                         BigDecimal.ONE,
@@ -54,6 +55,7 @@ class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
         var actualMessage = retrievedMessages.getContent().getFirst();
 
         assertThat(actualMessage.accountId()).isEqualTo(expectedMessage.accountId());
+        assertThat(actualMessage.transactionId()).isEqualTo(expectedMessage.transactionId());
         assertThat(actualMessage.accountType()).isEqualTo(expectedMessage.accountType());
         assertThat(actualMessage.amount()).isEqualTo(expectedMessage.amount());
         assertThat(actualMessage.transactionType()).isEqualTo(expectedMessage.transactionType());

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public record TransactionMessage(
+        String transactionId,
         String accountId,
         AccountType accountType,
         BigDecimal amount,

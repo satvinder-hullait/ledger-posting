@@ -23,6 +23,7 @@ public class LedgerWriteRepositoryImpl implements LedgerWriteRepository {
                 existingMessages = new ArrayList<>();
             }
             existingMessages.add(transactionMessage);
+            log.info("Writing transaction");
             redisTemplate.opsForValue().set(key, existingMessages);
         } catch (Exception e) {
             throw new LedgerWriteRepositoryException(

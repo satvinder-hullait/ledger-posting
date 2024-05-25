@@ -56,6 +56,7 @@ public class TransactionConsumerTest extends BaseKafkaIntegrationTestClass {
     public void testConsumesTransactionMessageCorrectly() {
         TransactionMessage message =
                 new TransactionMessage(
+                        "1",
                         "12345",
                         AccountType.CURRENT,
                         new BigDecimal("100.00"),

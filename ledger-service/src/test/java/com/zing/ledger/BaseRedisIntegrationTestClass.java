@@ -1,8 +1,10 @@
 package com.zing.ledger;
 
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+@Testcontainers
 public abstract class BaseRedisIntegrationTestClass {
 
     protected static final GenericContainer<?> REDIS_CONTAINER;
