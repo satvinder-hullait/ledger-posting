@@ -8,6 +8,7 @@ import com.zing.ledger.BaseKafkaIntegrationTestClass;
 import com.zing.ledger.config.KafkaConsumerConfig;
 import com.zing.ledger.service.LedgerService;
 import com.zing.ledger.service.domain.AccountType;
+import com.zing.ledger.service.domain.TransactionCurrency;
 import com.zing.ledger.service.domain.TransactionMessage;
 import com.zing.ledger.service.domain.TransactionType;
 import java.math.BigDecimal;
@@ -59,6 +60,7 @@ public class TransactionConsumerTest extends BaseKafkaIntegrationTestClass {
                         AccountType.CURRENT,
                         new BigDecimal("100.00"),
                         TransactionType.DEBIT,
+                        TransactionCurrency.GBP,
                         Instant.now());
         doNothing().when(ledgerService).writeLedgerEntry(any());
         kafkaTemplate.send("transaction-topic", message);

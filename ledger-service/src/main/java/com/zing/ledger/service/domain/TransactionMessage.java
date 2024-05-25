@@ -9,5 +9,6 @@ public record TransactionMessage(
         AccountType accountType,
         BigDecimal amount,
         TransactionType transactionType,
+        TransactionCurrency transactionCurrency,
         Instant timestamp)
         implements Serializable {}

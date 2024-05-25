@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import com.zing.ledger.BaseRedisIntegrationTestClass;
 import com.zing.ledger.service.domain.AccountType;
+import com.zing.ledger.service.domain.TransactionCurrency;
 import com.zing.ledger.service.domain.TransactionMessage;
 import com.zing.ledger.service.domain.TransactionType;
 import java.math.BigDecimal;
@@ -40,6 +41,7 @@ class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
                         AccountType.CURRENT,
                         BigDecimal.ONE,
                         TransactionType.CREDIT,
+                        TransactionCurrency.GBP,
                         Instant.now());
         List<TransactionMessage> transactionMessages = List.of(expectedMessage);
 
