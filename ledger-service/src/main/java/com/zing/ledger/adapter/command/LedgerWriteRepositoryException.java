@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.command;
+package com.zing.ledger.adapter.command;
 
 public class LedgerWriteRepositoryException extends RuntimeException {
 

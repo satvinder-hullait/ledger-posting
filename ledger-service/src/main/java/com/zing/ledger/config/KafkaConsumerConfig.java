@@ -29,7 +29,6 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "group_id");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
@@ -56,9 +55,12 @@ public class KafkaConsumerConfig {
             kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, TransactionMessage> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        //        Sets acknowledgement mode to Record to ensure it acks each message sent, also
-        // setting Kafka into After-Processing mode which means if a db write fails for instance,
-        // the message is not consumed and the offset doesn't move
+        //        Sets acknowledgement mode to Record to ensure it acks each message sent,
+        //        also setting Kafka into After-Processing mode which means if a db write fails for
+        // instance,
+        //        the message is not consumed and the offset doesn't move.
+        //        Would need to be guided on what the desired behaviour would be in real life,
+        //        do we want to retry and then put it into a dead letter queue if it fails x times??
         factory.getContainerProperties().setAckMode(AckMode.RECORD);
         factory.setConsumerFactory(consumerFactory());
         return factory;

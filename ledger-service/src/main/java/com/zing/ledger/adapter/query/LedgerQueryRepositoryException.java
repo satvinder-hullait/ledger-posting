@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.query;
+package com.zing.ledger.adapter.query;
 
 public class LedgerQueryRepositoryException extends RuntimeException {
 

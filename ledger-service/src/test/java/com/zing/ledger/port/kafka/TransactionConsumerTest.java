@@ -67,7 +67,7 @@ public class TransactionConsumerTest extends BaseKafkaIntegrationTestClass {
         kafkaTemplate.send("transaction-topic", message);
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

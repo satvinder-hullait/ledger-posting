@@ -16,7 +16,7 @@ public class TransactionConsumer {
 
     @KafkaListener(topics = "transaction-topic", groupId = "group_id")
     public void consume(TransactionMessage message) {
-        //        Wouldn't log possibly sensitive data in real life
+        // Wouldn't log possibly sensitive data in real life
         log.info("Received Transaction: " + message);
         ledgerService.writeLedgerEntry(message);
     }

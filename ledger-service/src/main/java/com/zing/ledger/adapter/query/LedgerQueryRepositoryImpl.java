@@ -1,6 +1,7 @@
-package com.zing.ledger.repository.query;
+package com.zing.ledger.adapter.query;
 
 import com.zing.ledger.service.domain.TransactionMessage;
+import java.time.Instant;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class LedgerQueryRepositoryImpl implements LedgerQueryRepository {
     private final RedisTemplate<String, ArrayList<TransactionMessage>> redisTemplate;
 
     @Override
-    public Page<TransactionMessage> getTransactionsForAccount(String accountId) {
+    public Page<TransactionMessage> getTransactionsForAccount(String accountId, Instant timestamp) {
         ArrayList<TransactionMessage> result = redisTemplate.opsForValue().get(accountId);
         if (result == null) {
             throw new LedgerQueryRepositoryException(

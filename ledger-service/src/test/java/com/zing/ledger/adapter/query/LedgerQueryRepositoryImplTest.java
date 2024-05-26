@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.query;
+package com.zing.ledger.adapter.query;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
 
     @Autowired private LedgerQueryRepository ledgerQueryRepository;
@@ -28,13 +28,16 @@ class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
     @Test
     void testGetTransactionsForNonExistingAccount() {
         assertThatThrownBy(
-                        () -> ledgerQueryRepository.getTransactionsForAccount("nonExistingAccount"))
+                        () ->
+                                ledgerQueryRepository.getTransactionsForAccount(
+                                        "nonExistingAccount", Instant.now()))
                 .isInstanceOf(LedgerQueryRepositoryException.class);
     }
 
     @Test
     void testCanGetTransactions() {
         String accountId = "1234";
+        Instant now = Instant.now();
         TransactionMessage expectedMessage =
                 new TransactionMessage(
                         "1",
@@ -43,13 +46,13 @@ class LedgerQueryRepositoryImplTest extends BaseRedisIntegrationTestClass {
                         BigDecimal.ONE,
                         TransactionType.CREDIT,
                         TransactionCurrency.GBP,
-                        Instant.now());
+                        now);
         List<TransactionMessage> transactionMessages = List.of(expectedMessage);
 
         redisTemplate.opsForValue().set(accountId, new ArrayList<>(transactionMessages));
 
         Page<TransactionMessage> retrievedMessages =
-                ledgerQueryRepository.getTransactionsForAccount(accountId);
+                ledgerQueryRepository.getTransactionsForAccount(accountId, now);
         assertThat(retrievedMessages.getTotalElements()).isEqualTo(1);
 
         var actualMessage = retrievedMessages.getContent().getFirst();

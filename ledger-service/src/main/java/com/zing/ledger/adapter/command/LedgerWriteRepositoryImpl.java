@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.command;
+package com.zing.ledger.adapter.command;
 
 import com.zing.ledger.service.domain.TransactionMessage;
 import java.util.ArrayList;
@@ -22,9 +22,16 @@ public class LedgerWriteRepositoryImpl implements LedgerWriteRepository {
             if (existingMessages == null) {
                 existingMessages = new ArrayList<>();
             }
+            if (existingMessages.contains(transactionMessage)) {
+                throw new TransactionAlreadyExistsException(
+                        "Duplicate transaction for account: " + key);
+            }
             existingMessages.add(transactionMessage);
             log.info("Writing transaction");
             redisTemplate.opsForValue().set(key, existingMessages);
+        } catch (TransactionAlreadyExistsException e) {
+            //         Want this exception to be thrown and not go into the catch all below
+            throw e;
         } catch (Exception e) {
             throw new LedgerWriteRepositoryException(
                     "Failed to save transaction for account: " + key, e);

@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.command;
+package com.zing.ledger.adapter.command;
 
 import com.zing.ledger.service.domain.TransactionMessage;
 

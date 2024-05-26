@@ -1,4 +1,4 @@
-package com.zing.ledger.repository.command;
+package com.zing.ledger.adapter.command;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
 
-    @Autowired private LedgerWriteRepositoryImpl ledgerWriteRepository;
+    @Autowired private LedgerWriteRepository ledgerWriteRepository;
 
     @Autowired private RedisTemplate<String, ArrayList<TransactionMessage>> redisTemplate;
 
@@ -124,5 +124,27 @@ class LedgerWriteRepositoryImplTest extends BaseRedisIntegrationTestClass {
         assertThatThrownBy(() -> ledgerWriteRepository.saveTransaction(newMessage))
                 .isInstanceOf(LedgerWriteRepositoryException.class)
                 .hasMessageContaining("Failed to save transaction for account: " + accountId);
+    }
+
+    @Test
+    void testSaveTransaction_DuplicateTransaction() {
+        String accountId = "1234";
+        String transactionId = "1";
+        Instant now = Instant.now();
+        TransactionMessage existingMessage =
+                new TransactionMessage(
+                        transactionId,
+                        accountId,
+                        AccountType.CURRENT,
+                        BigDecimal.ONE,
+                        TransactionType.CREDIT,
+                        TransactionCurrency.GBP,
+                        now);
+
+        redisTemplate.opsForValue().set(accountId, new ArrayList<>(List.of(existingMessage)));
+
+        assertThatThrownBy(() -> ledgerWriteRepository.saveTransaction(existingMessage))
+                .isInstanceOf(TransactionAlreadyExistsException.class)
+                .hasMessageContaining("Duplicate transaction for account: " + accountId);
     }
 }

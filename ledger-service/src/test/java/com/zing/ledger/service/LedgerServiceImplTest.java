@@ -1,6 +1,7 @@
 package com.zing.ledger.service;
 
-import com.zing.ledger.repository.command.LedgerWriteRepository;
+import com.zing.ledger.adapter.command.LedgerWriteRepository;
+import com.zing.ledger.adapter.query.LedgerQueryRepository;
 import com.zing.ledger.service.domain.AccountType;
 import com.zing.ledger.service.domain.TransactionCurrency;
 import com.zing.ledger.service.domain.TransactionMessage;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class LedgerServiceImplTest {
 
     @Mock private LedgerWriteRepository ledgerWriteRepository;
+    @Mock private LedgerQueryRepository ledgerQueryRepository;
 
     @Test
     void testWriteLedgerEntry() {
@@ -30,7 +32,8 @@ class LedgerServiceImplTest {
                         TransactionType.CREDIT,
                         TransactionCurrency.GBP,
                         Instant.now());
-        LedgerService ledgerService = new LedgerServiceImpl(ledgerWriteRepository);
+        LedgerService ledgerService =
+                new LedgerServiceImpl(ledgerWriteRepository, ledgerQueryRepository);
 
         ledgerService.writeLedgerEntry(transactionMessage);
 
