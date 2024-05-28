@@ -1,0 +1,9 @@
+{
+  "transactionId": "123e4567-e89b-12d3-a456-426614174000",
+  "accountId": "test-account",
+  "accountType": "CURRENT",
+  "amount": 1000.00,
+  "transactionType": "DEBIT",
+  "transactionCurrency": "GBP",
+  "timestamp": "2024-05-27T13:56:19.333Z"
+}
